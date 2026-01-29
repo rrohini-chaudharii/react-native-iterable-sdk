@@ -36,22 +36,14 @@ export const Embedded = () => {
   }, []);
 
   const startEmbeddedSession = useCallback(() => {
-    console.log(
-      'startEmbeddedSession --> check android/ios logs to check if it worked'
-    );
     Iterable.embeddedManager.startSession();
   }, []);
 
   const endEmbeddedSession = useCallback(() => {
-    console.log(
-      'endEmbeddedSession --> check android/ios logs to check if it worked'
-    );
     Iterable.embeddedManager.endSession();
   }, []);
 
   const getEmbeddedMessages = useCallback(() => {
-    console.log('Fetching messages for placement IDs:', idsToFetch);
-
     Iterable.embeddedManager
       .getMessages(idsToFetch)
       .then((messages: IterableEmbeddedMessage[]) => {
@@ -62,7 +54,6 @@ export const Embedded = () => {
 
   const startEmbeddedImpression = useCallback(
     (message: IterableEmbeddedMessage) => {
-      console.log(`startEmbeddedImpression`, message);
       Iterable.embeddedManager.startImpression(
         message.metadata.messageId,
         // TODO: check if this should be changed to a number, as per the type
@@ -74,7 +65,6 @@ export const Embedded = () => {
 
   const pauseEmbeddedImpression = useCallback(
     (message: IterableEmbeddedMessage) => {
-      console.log(`pauseEmbeddedImpression:`, message);
       Iterable.embeddedManager.pauseImpression(message.metadata.messageId);
     },
     []
@@ -86,7 +76,6 @@ export const Embedded = () => {
       buttonId: string | null,
       action?: IterableAction | null
     ) => {
-      console.log(`handleClick:`, message);
       Iterable.embeddedManager.handleClick(message, buttonId, action);
     },
     []
