@@ -98,17 +98,8 @@ extension IterableConfig {
       }
     }
 
-    if let retryPolicyDict = dict["retryPolicy"] as? [AnyHashable: Any] {
-      if let maxRetry = retryPolicyDict["maxRetry"] as? Int,
-        let retryInterval = retryPolicyDict["retryInterval"] as? TimeInterval,
-        let retryBackoffString = retryPolicyDict["retryBackoff"] as? String
-      {
-        let retryBackoffType: RetryPolicy.BackoffType =
-          retryBackoffString == "EXPONENTIAL" ? .exponential : .linear
-        config.retryPolicy = RetryPolicy(
-          maxRetry: maxRetry, retryInterval: retryInterval, retryBackoff: retryBackoffType)
-      }
-    }
+    // retryPolicy / RetryPolicy exist only in newer Iterable-iOS-SDK (e.g. 6.6+).
+    // Iterable-iOS-SDK 6.5.4.1 has no IterableConfig.retryPolicy — omit or ignore JS "retryPolicy" key.
 
     return config
   }
