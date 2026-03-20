@@ -774,9 +774,7 @@ extension ReactIterableAPI: IterableInAppDelegate {
 }
 
 extension ReactIterableAPI: IterableAuthDelegate {
-  // Note: Iterable-iOS-SDK 6.5.x (e.g. 6.5.4.1) IterableAuthDelegate has only
-  // onAuthTokenRequested + onTokenRegistrationFailed — no onAuthFailure / AuthFailure.
-  // Newer SDKs add onAuthFailure; mirror that in your fork when you bump Iterable-iOS-SDK.
+  // Iterable-iOS-SDK 6.6+ IterableAuthDelegate: onAuthTokenRequested + onAuthFailure(_:)
 
   public func onAuthTokenRequested(completion: @escaping AuthTokenRetrievalHandler) {
     ITBInfo()
@@ -807,7 +805,20 @@ extension ReactIterableAPI: IterableAuthDelegate {
     }
   }
 
-  public func onTokenRegistrationFailed(_ reason: String?) {
+  public func onAuthFailure(_ authFailure: AuthFailure) {
+    ITBInfo()
+    guard shouldEmit else {
+      return
+    }
+    let body: [String: Any] = [
+      "userKey": authFailure.userKey ?? "",
+      "failedAuthToken": authFailure.failedAuthToken ?? "",
+      "failedRequestTime": authFailure.failedRequestTime,
+      "failureReason": authFailure.failureReason.rawValue,
+    ]
+    delegate?.sendEvent(
+      withName: EventName.handleAuthFailureCalled.rawValue,
+      body: body)
   }
 }
 
