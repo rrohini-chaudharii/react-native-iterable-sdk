@@ -38,8 +38,8 @@ Iterable. It supports JavaScript and TypeScript.
 Iterable's React Native SDK relies on:
 
 - **React Native**
-    - [React Native 0.75+](https://github.com/facebook/react-native)
-    - [React 18.1+](https://github.com/facebook/react)
+    - [React Native 0.75+](https://github.com/facebook/react-native) (example app verified on **0.84.1**)
+    - [React 18.1+](https://github.com/facebook/react) (0.84.x uses **React 19.2.x**)
 
     _UI Components require additional peer dependencies_
     - [React Navigation 6+](https://github.com/react-navigation/react-navigation)
@@ -104,6 +104,7 @@ To learn more about the SDK, read:
 - [Tracking Events](https://support.iterable.com/hc/articles/360046134891)
 - [Deep Links and Custom Actions](https://support.iterable.com/hc/articles/360046134911)
 - [Push Notifications](https://support.iterable.com/hc/articles/360046134871)
+- [Push setup checklist (FCM + APNs) for this repo](./docs/PUSH_NOTIFICATIONS.md)
 - [In-App Messages](https://support.iterable.com/hc/articles/360045714172)
 - [Migrating to Iterable's React Native SDK](https://support.iterable.com/hc/articles/360046134931)
 

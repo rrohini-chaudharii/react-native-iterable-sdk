@@ -79,9 +79,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   private func setupUserNotificationCenter() {
     UNUserNotificationCenter.current().delegate = self
     UNUserNotificationCenter.current().getNotificationSettings { settings in
-      if settings.authorizationStatus != .authorized {
-        ITBInfo("Not authorized")
-        // not authorized, ask for permission
+      let status = settings.authorizationStatus
+      if Self.isPushAuthorizationGranted(status) {
+        ITBInfo("Push authorization already granted (status: \(status.rawValue))")
+        DispatchQueue.main.async {
+          UIApplication.shared.registerForRemoteNotifications()
+        }
+        return
+      }
+
+      if status == .notDetermined {
+        ITBInfo("Requesting notification authorization")
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, _ in
           ITBInfo("auth: \(success)")
           if success {
@@ -89,16 +97,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
               UIApplication.shared.registerForRemoteNotifications()
             }
           }
-          // TODO: Handle error etc.
         }
-      } else {
-        // already authorized
-        ITBInfo("Already authorized")
-        DispatchQueue.main.async {
-          UIApplication.shared.registerForRemoteNotifications()
-        }
+        return
       }
+
+      ITBInfo("Notifications denied or restricted (status: \(status.rawValue))")
     }
+  }
+
+  private static func isPushAuthorizationGranted(_ status: UNAuthorizationStatus) -> Bool {
+    if status == .authorized {
+      return true
+    }
+    if #available(iOS 12.0, *), status == .provisional {
+      return true
+    }
+    if #available(iOS 15.0, *), status == .ephemeral {
+      return true
+    }
+    return false
   }
 }
 

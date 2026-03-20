@@ -1,4 +1,5 @@
-import type { TurboModule, UnsafeObject } from 'react-native';
+import type { TurboModule } from 'react-native';
+import type { UnsafeObject } from 'react-native/Libraries/Types/CodegenTypes';
 import { TurboModuleRegistry } from 'react-native';
 
 // NOTE: No types can be imported because of the way new arch works, so we have

@@ -33,6 +33,10 @@ Once this is done, `cd` back into the _example app directory_:
 cd ..
 ```
 
+## Push notifications (Android)
+
+This repo does **not** commit `google-services.json` (same as Iterable’s upstream SDK). To test FCM push with the example app, add your own Firebase Android app (package **`iterable.reactnativesdk.example`**), download **`google-services.json`** into **`android/app/`**, then add the [Google Services Gradle plugin](https://developers.google.com/android/guides/google-services-plugin) to the example Android project (classpath + `apply plugin: "com.google.gms.google-services"`). See [docs/PUSH_NOTIFICATIONS.md](../docs/PUSH_NOTIFICATIONS.md).
+
 ## Step 2: Add your environment variables
 In the _example app directory_, there is a file called **.env.example**.  Make a
 copy of this file, name it **.env** and place it in the example app directory.
